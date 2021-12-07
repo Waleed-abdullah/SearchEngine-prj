@@ -1,6 +1,6 @@
 import os, json, re
 import nltk
-# nltk.download('stopwords')
+nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 
