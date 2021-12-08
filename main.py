@@ -9,11 +9,8 @@ def getJsonFileNames():
 
 # This function reads the json data in each corresponding file
 def readJsonData():
-    jsonFiles = getJsonFileNames()
+    # for fileName in jsonFiles:
+    file = open(('Dataset/nela-gt-2020/newsdata/369news.json'))
+    data = json.load(file)
+    return data
     
-    for fileName in jsonFiles:
-        file = open(('Dataset/nela-gt-2020/newsdata/{}').format(fileName))
-        data = json.load(file)
-        print(data[0]['id'])
-
-readJsonData()
