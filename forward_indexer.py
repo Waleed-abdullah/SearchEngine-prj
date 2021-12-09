@@ -8,7 +8,7 @@ import zlib
 from dumpLexicon import dumpLexicon
 
 
-# This parses json files and creates forward index and inverted index
+# This parses json files and creates forward index
 def generate_forward_index(path_to_data):
 
     start = datetime.now()
@@ -21,10 +21,9 @@ def generate_forward_index(path_to_data):
     temp_forward_index = open("temp_forward_index.txt", 'w')
     lexicon = {}
 
-    for i in range(1):
+    for fileName in file_names:
         fileName = file_names[i]
-        # file = open('{}/{}'.format(path_to_data, fileName))
-        file = open('./21stcenturywire.json')
+        file = open('{}/{}'.format(path_to_data, fileName))
         loaded_data = json.load(file)
 
         for article in loaded_data:
@@ -61,22 +60,28 @@ def generate_forward_index(path_to_data):
     print("The time of execution of to create forward index and lexicon is:", str(end - start))
 
 
-def merge_forward_Index(fileToBeMerged):
-    doc_ids = {}
-    with open('forward_index.txt', 'a+') as fwd_idx:
-        for jsonObj in fwd_idx:
-            document = json.loads(jsonObj)
-            print(jsonObj)
-            doc_ids.add(document['docID'])
-        print(doc_ids)
-        # with open(fileToBeMerged) as m:
-        #     for jsonObj in m:
-        #         document = json.loads(jsonObj)
-        #         if document['docID'] not in doc_ids:
-        #             fwd_idx.write(json.dumps(document))
-        #             fwd_idx.write('\n')
-    fwd_idx.close()
 
+def merge_forward_Index(fileToBeMerged):
+    # if forward index isnt already created just dump the articles
+    if not os.path.isfile('forward_index.txt'):
+        with open('forward_index.txt', 'w') as fwd_idx:
+            with open(fileToBeMerged) as m:
+                for object in m:
+                    document = json.loads(object)
+                    fwd_idx.write(json.dumps(document))
+                    fwd_idx.write('\n')
+    else:
+        doc_ids = set()
+        with open('forward_index.txt', 'r+') as fwd_idx:
+            for object in fwd_idx:
+                document = json.loads(object)
+                doc_ids.add(document['docID'])
+            with open(fileToBeMerged) as m:
+                for object in m:
+                    document = json.loads(object)
+                    if document['docID'] not in doc_ids:
+                        fwd_idx.write(json.dumps(document))
+                        fwd_idx.write('\n')
 
 
     
