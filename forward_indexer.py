@@ -22,7 +22,6 @@ def generate_forward_index(path_to_data):
     lexicon = {}
 
     for fileName in file_names:
-        fileName = file_names[i]
         file = open('{}/{}'.format(path_to_data, fileName))
         loaded_data = json.load(file)
 
@@ -64,12 +63,15 @@ def generate_forward_index(path_to_data):
 def merge_forward_Index(fileToBeMerged):
     # if forward index isnt already created just dump the articles
     if not os.path.isfile('forward_index.txt'):
+        doc_ids = set()
         with open('forward_index.txt', 'w') as fwd_idx:
             with open(fileToBeMerged) as m:
                 for object in m:
                     document = json.loads(object)
-                    fwd_idx.write(json.dumps(document))
-                    fwd_idx.write('\n')
+                    if document['docID'] not in doc_ids:
+                        doc_ids.add(document['docID']) # in case there was a duplicate of a file/article in the dataset
+                        fwd_idx.write(json.dumps(document))
+                        fwd_idx.write('\n')
     else:
         doc_ids = set()
         with open('forward_index.txt', 'r+') as fwd_idx:
@@ -80,6 +82,7 @@ def merge_forward_Index(fileToBeMerged):
                 for object in m:
                     document = json.loads(object)
                     if document['docID'] not in doc_ids:
+                        doc_ids.add(document['docID']) # in case there was a duplicate of a file/article in the dataset
                         fwd_idx.write(json.dumps(document))
                         fwd_idx.write('\n')
 
