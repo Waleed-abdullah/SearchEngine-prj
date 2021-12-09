@@ -1,6 +1,6 @@
 from dumpLexicon import dumpLexicon
-from forwardIndexGenerator import generateFwdIdx
+from forward_indexer import generate_forward_index
 from dumpLexicon import dumpLexicon
 
-generateFwdIdx('./Dataset/nela-gt-2020/newsdata/')
+generate_forward_index('./Dataset/nela-gt-2020/newsdata/')
 
