@@ -20,9 +20,8 @@ def generate_forward_index(path_to_data):
 
     lexicon = {}
     document_indices = {}
-    barrel_count = 1
     doc_count = 0
-    forward_index = open("forward_index_barrel_" + str(barrel_count) + ".txt", 'w')
+    forward_index = open("forward_index.txt", 'w')
 
     # load the document indices, if the file exists open in read mode and load the data then open in write mode
     if os.path.isfile('./document_index.txt'):
