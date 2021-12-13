@@ -1,10 +1,9 @@
-import json, re, os
+import json, re, os, zlib
 import nltk
 # nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from datetime import datetime
-import zlib
 from dumpLexicon import dumpLexicon
 from Inverted_indexer import generate_inverted_index
 
