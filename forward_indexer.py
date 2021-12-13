@@ -5,7 +5,7 @@ from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from datetime import datetime
 from dumpLexicon import dumpLexicon
-from Inverted_indexer import generate_inverted_index
+
 
 
 # This parses json files and creates forward index
@@ -87,7 +87,7 @@ def generate_forward_index(path_to_data):
     # generate_inverted_index()
 
     end = datetime.now()
-    print("The time of execution of to create forward index and lexicon is:", str(end - start))
+    print("The time of execution of to create forward index, and lexicon is:", str(end - start))
 
 
 

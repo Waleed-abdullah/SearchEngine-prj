@@ -1,7 +1,9 @@
 import json, os
+from datetime import datetime
 
 def generate_inverted_index():
-   
+    start = datetime.now()
+
     prev_lex_file = open('lexicon.txt', 'r')
     lexicon = json.load(prev_lex_file)
     prev_lex_file.close()
@@ -32,6 +34,10 @@ def generate_inverted_index():
         inverted_idx_file.write(json.dumps(wordDict))
         inverted_idx_file.write('\n')
 
-generate_inverted_index()
+    end = datetime.now()
+    print("The time of execution of to create invereted Index is:", str(end - start))
+
+
+
 
 
