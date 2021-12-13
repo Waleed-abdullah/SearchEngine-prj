@@ -16,7 +16,7 @@ def generate_inverted_index():
                     if lexicon[word]:
                         inverted_idx[lexicon[word] - 1][word].append([docID, hits])
                     else:
-                        inverted_idx.append({word: []})
+                        inverted_idx.append({word: [[docID, hits]]})
                         lexicon[word] = len(inverted_idx)
 
     new_lexicon = open('lexicon.txt', 'w')

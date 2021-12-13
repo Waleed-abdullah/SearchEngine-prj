@@ -84,7 +84,7 @@ def generate_forward_index(path_to_data):
     forward_index.close()
     document_Index.write(json.dumps(documentIndices))
     document_Index.close()
-    generate_inverted_index()
+    # generate_inverted_index()
 
     end = datetime.now()
     print("The time of execution of to create forward index and lexicon is:", str(end - start))
