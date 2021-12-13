@@ -1,11 +1,11 @@
-import json, re, os
+import json, re, os, zlib
 import nltk
 # nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from datetime import datetime
-import zlib
 from dumpLexicon import dumpLexicon
+
 
 
 # This parses json files and creates forward index and inverted index
@@ -88,11 +88,13 @@ def generate_forward_index(path_to_data):
 
         dumpLexicon(lexicon)
 
+
     document_index.write(json.dumps(document_indices))
     document_index.close()
 
     end = datetime.now()
     print("The time of execution of to create forward index and lexicon is:", str(end - start))
     print(doc_count)
+
 
 
