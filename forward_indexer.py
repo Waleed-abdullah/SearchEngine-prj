@@ -32,7 +32,7 @@ def generate_forward_index(path_to_data):
 
     # generate the forward index
     for i in range(1):
-        file = open('./Dataset/nela-gt-2020/newsdata/369news.json')
+        file = open('./Dataset/nela-gt-2020/newsdata/abcnews.json')
         #file = open('{}/{}'.format(path_to_data, fileName))
         loaded_data = json.load(file)
 
