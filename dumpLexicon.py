@@ -11,9 +11,7 @@ def dumpLexicon(input_dict):
                 data[x] = 0
         prev_lexicon.close()
     else:
-        data = {}
-        for x in input_dict:
-            data[x] = 0
+        data = input_dict
     new_lexicon = open('lexicon.txt', "w")
     new_lexicon.write(json.dumps(data))
     new_lexicon.close()
