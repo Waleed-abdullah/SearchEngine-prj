@@ -11,7 +11,7 @@ def search_word(word):
     if word_id is None:
         return None
 
-    barrel_num = int(word_id/10000) + 1
+    barrel_num = int(word_id / 2500) + 1
     inverted_index = open("inverted_barrel_" + str(barrel_num) + ".txt", 'r')
 
     doc_list = []
