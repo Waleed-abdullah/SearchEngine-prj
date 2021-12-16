@@ -1,5 +1,6 @@
 import os, json
 from datetime import datetime
+from sorter import sort
 
 
 def inverted_index_generator():
@@ -22,13 +23,16 @@ def inverted_index_generator():
 
         for line in forward_file:
             inverted_list.append(json.loads(line))
+        forward_file.close()
 
-        file = open("./InvertedBarrels/inverted_barrel_" + barrel_num + ".txt", 'w')
-        sorted_list = sorted(inverted_list, key=lambda x: x[0][1])
-        for value in sorted_list:
-            file.write(json.dumps(value))
-            file.write('\n')
-
+        # sort the invertedList and write to the inverted barrel
+        inverted_file = open("./InvertedBarrels/inverted_barrel_" + barrel_num + ".txt", 'w')
+        sorted_list = sort(inverted_list)
+        for i in range(len(sorted_list)):
+            for j in range(len(sorted_list[i])):
+                inverted_file.write(json.dumps(sorted_list[i][j]))
+                inverted_file.write('\n')
+        inverted_file.close()
 
     end = datetime.now()
     print("The time of execution of to create inverted index is:", str(end - start))
