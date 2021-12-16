@@ -5,12 +5,12 @@ from datetime import datetime
 def ivtd_index_generator():
 
     start = datetime.now()
-    barrels = [forward_barrel for forward_barrel in os.listdir("./") if forward_barrel.startswith('forward_barrel_')]
+    barrels = [forward_barrel for forward_barrel in os.listdir("./forwardBarrels") if forward_barrel.startswith('forward_barrel_')]
     barrel_count = 1
 
     for barrel in barrels:
 
-        forward_file = open('{}'.format(barrel))
+        forward_file = open('./InvertedBarrels/{}'.format(barrel))
         inverted_list = []
         if os.path.isfile("./inverted_barrel_" + str(barrel_count) + ".txt"):
             with open("inverted_barrel_" + str(barrel_count) + ".txt", 'r') as inverted_index:

@@ -38,22 +38,17 @@ def generate_forward_index(path_to_data):
 
     document_index = open('./document_index.txt', 'w')
 
-    forward_barrel_1 = open("forward_barrel_1.txt", 'w')
-    forward_barrel_2 = open("forward_barrel_2.txt", 'w')
-    forward_barrel_3 = open("forward_barrel_3.txt", 'w')
-    forward_barrel_4 = open("forward_barrel_4.txt", 'w')
-    forward_barrel_5 = open("forward_barrel_5.txt", 'w')
+    
+    forward_barrels = []
+    for i in range(1, 65):
+        forward_barrels.append(open('./forwardBarrels/forward_barrel_{}'.format(i), 'w'))
 
-    forward_barrels = [forward_barrel_1, forward_barrel_2, forward_barrel_3, forward_barrel_4, forward_barrel_5]
+   
 
     for file_name in file_names:
-
-        forward_dict_1 = {}
-        forward_dict_2 = {}
-        forward_dict_3 = {}
-        forward_dict_4 = {}
-        forward_dict_5 = {}
-        forward_dicts = [forward_dict_1, forward_dict_2, forward_dict_3, forward_dict_4, forward_dict_5]
+        forward_dicts = []
+        for i in range(1, 65):
+            forward_dicts.append({})
 
         file = open('{}/{}'.format(path_to_data, file_name))
         loaded_data = json.load(file)
@@ -95,11 +90,11 @@ def generate_forward_index(path_to_data):
                     lexicon[word] = word_count
                     word_count += 1
 
-                if (int(hashedID), lexicon[word]) not in forward_dicts[int(lexicon[word] / 10000)]:
-                    forward_dicts[int(lexicon[word] / 10000)][int(hashedID), lexicon[word]] = [0, 1, position]
+                if (int(hashedID), lexicon[word]) not in forward_dicts[int(lexicon[word] / 2500)]:
+                    forward_dicts[int(lexicon[word] / 2500)][int(hashedID), lexicon[word]] = [0, 1, position]
                 else:
-                    forward_dicts[int(lexicon[word] / 10000)][(int(hashedID), lexicon[word])][1] += 1
-                    forward_dicts[int(lexicon[word] / 10000)][(int(hashedID), lexicon[word])].append(position)
+                    forward_dicts[int(lexicon[word] / 2500)][(int(hashedID), lexicon[word])][1] += 1
+                    forward_dicts[int(lexicon[word] / 2500)][(int(hashedID), lexicon[word])].append(position)
                 position += 1
 
         id = 0
