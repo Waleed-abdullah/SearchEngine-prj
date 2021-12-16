@@ -25,7 +25,7 @@ def generate_forward_index(path_to_data):
         lexicon = json.load(prev_lexicon)
         prev_lexicon.close()
     else:
-        lexicon = {"word_count": 1}
+        lexicon = {"word_count": 0}
 
     document_indices = {}
     doc_count = 0
