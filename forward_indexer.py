@@ -25,7 +25,7 @@ def generate_forward_index(path_to_data):
         lexicon = json.load(prev_lexicon)
         prev_lexicon.close()
     else:
-        lexicon = {"word_count": 0}
+        lexicon = {"word_count": 1}
 
     document_indices = {}
     doc_count = 0
@@ -41,16 +41,16 @@ def generate_forward_index(path_to_data):
     
     forward_barrels = []
     for i in range(1, 65):
-        forward_barrels.append(open('./forwardBarrels/forward_barrel_{}'.format(i), 'w'))
+        forward_barrels.append(open('./forwardBarrels/forward_barrel_{}.txt'.format(i), 'w'))
 
    
 
-    for file_name in file_names:
+    for i in range(60):
         forward_dicts = []
         for i in range(1, 65):
             forward_dicts.append({})
 
-        file = open('{}/{}'.format(path_to_data, file_name))
+        file = open('{}/{}'.format(path_to_data, file_names[i]))
         loaded_data = json.load(file)
 
         for article in loaded_data:
@@ -89,21 +89,20 @@ def generate_forward_index(path_to_data):
                 if word not in lexicon:
                     lexicon[word] = word_count
                     word_count += 1
-
-                if (int(hashedID), lexicon[word]) not in forward_dicts[int(lexicon[word] / 2500)]:
-                    forward_dicts[int(lexicon[word] / 2500)][int(hashedID), lexicon[word]] = [0, 1, position]
+                
+                barrelLocation = int(lexicon[word] / 2500)
+                if (int(hashedID), lexicon[word]) not in forward_dicts[barrelLocation]:
+                    forward_dicts[barrelLocation][int(hashedID), lexicon[word]] = [0, 1, position]
                 else:
-                    forward_dicts[int(lexicon[word] / 2500)][(int(hashedID), lexicon[word])][1] += 1
-                    forward_dicts[int(lexicon[word] / 2500)][(int(hashedID), lexicon[word])].append(position)
+                    forward_dicts[barrelLocation][(int(hashedID), lexicon[word])][1] += 1
+                    forward_dicts[barrelLocation][(int(hashedID), lexicon[word])].append(position)
                 position += 1
 
         id = 0
-        count = 0
-        while id < 5: # here 5 is barrel count
+        while id < 64: # here 64 is barrel count
             for object in forward_dicts[id].items():
                 forward_barrels[id].write(json.dumps(object))
                 forward_barrels[id].write("\n")
-                count += 1
             id += 1
 
     # dump lexicon
@@ -120,7 +119,4 @@ def generate_forward_index(path_to_data):
     print(doc_count)
     print(word_count)
 
-
-generate_forward_index("C:/Users/HP/Desktop/")
-ivtd_index_generator()
 
