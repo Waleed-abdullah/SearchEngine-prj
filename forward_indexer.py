@@ -1,11 +1,11 @@
 import json, re, os
 
 import nltk
-# nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from datetime import datetime
 import zlib
+nltk.download('stopwords')
 
 
 # This parses json files and creates lexicon and forward index
@@ -112,7 +112,7 @@ def generate_forward_index(path_to_data):
                     # in content hitlist, first element is always 0 and second element is hit count
                     # and then hit position are appended
                     forward_dicts[barrelLocation][(hashedID, lexicon[word])] = []
-                    forward_dicts[barrelLocation][(hashedID, lexicon[word])].insert(0, [0, 0])
+                    forward_dicts[barrelLocation][(hashedID, lexicon[word])].insert(0, [1, 0])
                     forward_dicts[barrelLocation][(hashedID, lexicon[word])].insert(1, [0, 1, position])
                 else:
                     # if hit list is present we just increase hit count for content hits
@@ -142,6 +142,3 @@ def generate_forward_index(path_to_data):
     print("The time of execution of to create forward index and lexicon is:", str(end - start))
     print('doc_count = ', doc_count)
     print('word_count = ', word_count)
-
-
-generate_forward_index("C:/Users/HP/Desktop/")
