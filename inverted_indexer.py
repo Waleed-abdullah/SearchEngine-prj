@@ -2,7 +2,7 @@ import os, json
 from datetime import datetime
 
 
-def ivtd_index_generator():
+def inverted_index_generator():
 
     start = datetime.now()
     barrels = [forward_barrel for forward_barrel in os.listdir("./forwardBarrels") if forward_barrel.startswith('forward_barrel_')]
