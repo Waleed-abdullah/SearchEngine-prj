@@ -7,7 +7,7 @@ from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from datetime import datetime
 import zlib
-from sorter import ivtd_index_generator
+
 
 
 # This parses json files and creates forward index and inverted index
@@ -40,16 +40,16 @@ def generate_forward_index(path_to_data):
 
     
     forward_barrels = []
-    for i in range(1, 65):
-        forward_barrels.append(open('./forwardBarrels/forward_barrel_{}.txt'.format(i), 'w'))
+    for barrelCount in range(1, 65):
+        forward_barrels.append(open('./forwardBarrels/forward_barrel_{}.txt'.format(barrelCount), 'w'))
 
-   
+    
 
     for i in range(60):
         forward_dicts = []
-        for i in range(1, 65):
+        for barrelCount in range(1, 65):
             forward_dicts.append({})
-
+    
         file = open('{}/{}'.format(path_to_data, file_names[i]))
         loaded_data = json.load(file)
 
@@ -116,7 +116,7 @@ def generate_forward_index(path_to_data):
 
     end = datetime.now()
     print("The time of execution of to create forward index and lexicon is:", str(end - start))
-    print(doc_count)
-    print(word_count)
+    print('doc_count = ', doc_count)
+    print('word_count = ',word_count)
 
 
