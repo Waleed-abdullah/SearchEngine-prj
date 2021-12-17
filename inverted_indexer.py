@@ -54,4 +54,3 @@ def inverted_index_generator():
 
     end = datetime.now()
     print("The time of execution of to create inverted index is:", str(end - start))
-
