@@ -22,7 +22,6 @@ def search_word(word):
         doc_list.append([line[0][0], line[1]])
         line = json.loads(inverted_index.readline())
 
-
     print(doc_list)
     inverted_index.close()
     end = datetime.now()

@@ -1,17 +1,29 @@
 import os, json
 from datetime import datetime
-from sorter import sort
+
+
+# performs sorting on forward barrel content
+def sort(input_list):
+    # creates a list of 533 list as each barrels contain hits of 533 words
+    sorted_list = [[] for i in range(533)]
+
+    # we sort it using counting sort
+    for value in input_list:
+        sorted_list[value[0][1] % 533].append(value)
+
+    return sorted_list
 
 
 def inverted_index_generator():
 
     start = datetime.now()
-    barrels = [forward_barrel for forward_barrel in os.listdir("./forwardBarrels") if forward_barrel.startswith('forward_barrel_')]
-    
+
+    # we find forward barrels present in directory
+    barrels = [forward_barrel for forward_barrel in os.listdir("./") if forward_barrel.startswith('forward_barrel_')]
 
     for barrel in barrels:
-
-        forward_file = open('./forwardBarrels/{}'.format(barrel))
+        # at a time we open one forward barrel
+        forward_file = open('./{}'.format(barrel))
         inverted_list = []
         # get the barrel number corresponding to the forward index file because they are not sorted
         if barrel[17].isnumeric() and barrel[16].isnumeric():
@@ -26,12 +38,13 @@ def inverted_index_generator():
                 for line in inverted_index:
                     inverted_list.append(json.loads(line))
 
+        # we append content of forward barrel to inverted list
         for line in forward_file:
             inverted_list.append(json.loads(line))
         forward_file.close()
 
-        # sort the invertedList and write to the inverted barrel
-        inverted_file = open("./InvertedBarrels/inverted_barrel_" + barrel_num + ".txt", 'w')
+        # re sort the inverted list and write to the inverted barrel
+        inverted_file = open("./inverted_barrel_" + barrel_num + ".txt", 'w')
         sorted_list = sort(inverted_list)
         for i in range(len(sorted_list)):
             for j in range(len(sorted_list[i])):
