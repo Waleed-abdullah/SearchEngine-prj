@@ -40,12 +40,12 @@ def generate_forward_index(path_to_data):
     for barrelCount in range(1, 301):
         forward_barrels.append(open('./forwardBarrels/forward_barrel_{}.txt'.format(barrelCount), 'w'))
 
-    for i in range(1):
+    for i in range(60):
         forward_dicts = []
         for barrelCount in range(1, 301):
             forward_dicts.append({})
 
-        file = open('{}/{}'.format(path_to_data, 'abcnews.json'))
+        file = open('{}/{}'.format(path_to_data, file_names[i]))
         loaded_data = json.load(file)
         file.close()
 

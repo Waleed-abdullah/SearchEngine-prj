@@ -11,7 +11,7 @@ def search_word(word):
     if word_id is None:
         return None
 
-    barrel_num = int(word_id / 2500) + 1
+    barrel_num = int(word_id / 533) + 1
     inverted_index = open("./InvertedBarrels/inverted_barrel_" + str(barrel_num) + ".txt", 'r')
 
     doc_list = []
@@ -29,7 +29,6 @@ def search_word(word):
     print("The time of execution to search a word is:", str(end - start))
 
 
-search_word("vetothebil")
+search_word("wall")
 #search_word("delhi")
-search_word("undoctor")
-search_word("kashmiri")
+
