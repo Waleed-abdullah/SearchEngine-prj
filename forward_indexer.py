@@ -5,7 +5,7 @@ from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from datetime import datetime
 import zlib
-nltk.download('stopwords')
+# nltk.download('stopwords')
 
 
 # This parses json files and creates lexicon and forward index
