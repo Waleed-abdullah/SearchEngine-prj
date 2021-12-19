@@ -26,7 +26,12 @@ def inverted_index_generator():
         forward_file = open('./{}'.format(barrel))
         inverted_list = []
         # get the barrel number corresponding to the forward index file because they are not sorted
-        barrel_num = barrel[15] + barrel[16] if barrel[16].isnumeric() else barrel[15] 
+        if barrel[17].isnumeric() and barrel[16].isnumeric():
+            barrel_num = barrel[15] + barrel[16] + barrel[17]
+        elif barrel[16].isnumeric():
+            barrel_num = barrel[15] + barrel[16]
+        else:
+            barrel_num = barrel[15]
 
         # if inverted barrel is present we load its content to a list
         if os.path.isfile("./inverted_barrel_" + barrel_num + ".txt"):
