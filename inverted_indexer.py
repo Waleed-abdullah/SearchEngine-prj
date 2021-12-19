@@ -19,7 +19,7 @@ def inverted_index_generator():
     start = datetime.now()
 
     # we find forward barrels present in directory
-    barrels = [forward_barrel for forward_barrel in os.listdir("./forwardBarrels") if forward_barrel.startswith('forward_barrel_')]
+    barrels = [forward_barrel for forward_barrel in os.listdir("./") if forward_barrel.startswith('forward_barrel_')]
 
     for barrel in barrels:
         # at a time we open one forward barrel
@@ -33,8 +33,8 @@ def inverted_index_generator():
         else:
             barrel_num = barrel[15]
         
-        if os.path.isfile("./InvertedBarrels/inverted_barrel_" + barrel_num + ".txt"):
-            with open("./InvertedBarrels/inverted_barrel_" + barrel_num + ".txt", 'r') as inverted_index:
+        if os.path.isfile("./inverted_barrel_" + barrel_num + ".txt"):
+            with open("./inverted_barrel_" + barrel_num + ".txt", 'r') as inverted_index:
                 for line in inverted_index:
                     inverted_list.append(json.loads(line))
 
@@ -44,7 +44,7 @@ def inverted_index_generator():
         forward_file.close()
 
         # re sort the inverted list and write to the inverted barrel
-        inverted_file = open("./InvertedBarrels/inverted_barrel_" + barrel_num + ".txt", 'w')
+        inverted_file = open("./inverted_barrel_" + barrel_num + ".txt", 'w')
         sorted_list = sort(inverted_list)
         for i in range(len(sorted_list)):
             for j in range(len(sorted_list[i])):
