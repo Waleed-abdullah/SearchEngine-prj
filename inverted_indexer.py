@@ -34,6 +34,7 @@ def inverted_index_generator():
             barrel_num = barrel[15]
 
         # if inverted barrel is present we load its content to a list
+
         if os.path.isfile("./inverted_barrel_" + barrel_num + ".txt"):
             with open("./inverted_barrel_" + barrel_num + ".txt", 'r') as inverted_index:
                 for line in inverted_index:
@@ -55,4 +56,3 @@ def inverted_index_generator():
 
     end = datetime.now()
     print("The time of execution of to create inverted index is:", str(end - start))
-
