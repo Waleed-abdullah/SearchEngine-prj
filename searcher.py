@@ -25,10 +25,7 @@ def search_word(word):
 
     doc_list = []
     result_count = 1
-    # line = json.loads(inverted_index.readline())
     inverted_index.seek(word_id[1])
-    # while line[0][1] != word_id:
-    #     line = json.loads(inverted_index.readline())
     line = json.loads(inverted_index.readline())
     while line[0][1] == word_id[0] and result_count < 31:
         doc_list.append([line[0][0], line[1]])

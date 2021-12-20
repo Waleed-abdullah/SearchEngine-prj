@@ -20,6 +20,11 @@ def inverted_index_generator():
 
     # we find forward barrels present in directory
     barrels = [forward_barrel for forward_barrel in os.listdir("./") if forward_barrel.startswith('forward_barrel_')]
+    # opening lexicon to update offset values into inverted barrels
+    lexicon_file = open("lexicon.txt", "r")
+    lexicon = json.load(lexicon_file)
+    lexicon_keys = list(lexicon.keys())
+    lexicon_file.close()
 
     for barrel in barrels:
         # at a time we open one forward barrel
@@ -34,7 +39,6 @@ def inverted_index_generator():
             barrel_num = barrel[15]
 
         # if inverted barrel is present we load its content to a list
-
         if os.path.isfile("./inverted_barrel_" + barrel_num + ".txt"):
             with open("./inverted_barrel_" + barrel_num + ".txt", 'r') as inverted_index:
                 for line in inverted_index:
@@ -50,9 +54,15 @@ def inverted_index_generator():
         sorted_list = sort(inverted_list)
         for i in range(len(sorted_list)):
             for j in range(len(sorted_list[i])):
+                if j == 0: lexicon[lexicon_keys[sorted_list[i][0][0][1]+1]][1] = inverted_file.tell()
                 inverted_file.write(json.dumps(sorted_list[i][j]))
                 inverted_file.write('\n')
         inverted_file.close()
 
+    lexicon_file = open("lexicon.txt", "w")
+    lexicon_file.write(json.dumps(lexicon))
+    lexicon_file.close()
+
     end = datetime.now()
     print("The time of execution of to create inverted index is:", str(end - start))
+
