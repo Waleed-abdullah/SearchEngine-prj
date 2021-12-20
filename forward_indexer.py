@@ -25,12 +25,12 @@ def generate_forward_index(path_to_data):
         lexicon = json.load(prev_lexicon)
         prev_lexicon.close()
     else:
-        lexicon = {"word_count": 0}
+        lexicon = {"word_count": [0, 0]}
 
     # create a temporary document index to store record of document being indexed
     document_indices = {}
     doc_count = 0
-    word_count = lexicon["word_count"]
+    word_count = lexicon["word_count"][0]
 
     # load the document indices, if the file exists open in read mode and load the data then open in write mode
     if os.path.isfile('./document_index.txt'):
@@ -83,20 +83,20 @@ def generate_forward_index(path_to_data):
 
                 # add word to lexicon if not in lexicon
                 if word not in lexicon:
-                    lexicon[word] = word_count
+                    lexicon[word] = [word_count, 0]
                     word_count += 1
 
                 # through word_id calculate which barrel it belongs to and then add hitlist for title
-                barrelLocation = int(lexicon[word] / 533)
-                if (hashedID, lexicon[word]) not in forward_dicts[barrelLocation]:
+                barrelLocation = int(lexicon[word][0] / 533)
+                if (hashedID, lexicon[word][0]) not in forward_dicts[barrelLocation]:
                     # here hitlist consist of two sub lists, first list for title and second for content
                     # in title hitlist, first element is always 1 and second element is hit count
-                    forward_dicts[barrelLocation][(hashedID, lexicon[word])] = []
-                    forward_dicts[barrelLocation][(hashedID, lexicon[word])].insert(0, [1, 1])
-                    forward_dicts[barrelLocation][(hashedID, lexicon[word])].insert(1, [0, 0])
+                    forward_dicts[barrelLocation][(hashedID, lexicon[word][0])] = []
+                    forward_dicts[barrelLocation][(hashedID, lexicon[word][0])].insert(0, [1, 1])
+                    forward_dicts[barrelLocation][(hashedID, lexicon[word][0])].insert(1, [0, 0])
                 else:
                     # if hit list is present we just increase hit count for title hits
-                    forward_dicts[barrelLocation][(hashedID, lexicon[word])][0][1] += 1
+                    forward_dicts[barrelLocation][(hashedID, lexicon[word][0])][0][1] += 1
                 position += 1
 
             position = 1  # position of word in the document
@@ -104,20 +104,20 @@ def generate_forward_index(path_to_data):
             for word in stemmed_words:
 
                 if word not in lexicon:
-                    lexicon[word] = word_count
+                    lexicon[word] = [word_count, 0]
                     word_count += 1
 
-                barrelLocation = int(lexicon[word] / 533)
-                if (hashedID, lexicon[word]) not in forward_dicts[barrelLocation]:
+                barrelLocation = int(lexicon[word][0] / 533)
+                if (hashedID, lexicon[word][0]) not in forward_dicts[barrelLocation]:
                     # in content hitlist, first element is always 0 and second element is hit count
                     # and then hit position are appended
-                    forward_dicts[barrelLocation][(hashedID, lexicon[word])] = []
-                    forward_dicts[barrelLocation][(hashedID, lexicon[word])].insert(0, [1, 0])
-                    forward_dicts[barrelLocation][(hashedID, lexicon[word])].insert(1, [0, 1, position])
+                    forward_dicts[barrelLocation][(hashedID, lexicon[word][0])] = []
+                    forward_dicts[barrelLocation][(hashedID, lexicon[word][0])].insert(0, [1, 0])
+                    forward_dicts[barrelLocation][(hashedID, lexicon[word][0])].insert(1, [0, 1, position])
                 else:
                     # if hit list is present we just increase hit count for content hits
-                    forward_dicts[barrelLocation][(hashedID, lexicon[word])][1][1] += 1
-                    forward_dicts[barrelLocation][(hashedID, lexicon[word])][1].append(position)
+                    forward_dicts[barrelLocation][(hashedID, lexicon[word][0])][1][1] += 1
+                    forward_dicts[barrelLocation][(hashedID, lexicon[word][0])][1].append(position)
                 position += 1
 
         id = 0
@@ -129,9 +129,9 @@ def generate_forward_index(path_to_data):
             id += 1
 
     # dump lexicon program which updates previous lexicon to create new lexicon
-    lexicon["word_count"] = word_count
+    lexicon["word_count"][0] = word_count
     new_lexicon = open('lexicon.txt', "w")
-    new_lexicon.write(json.dumps(lexicon, indent=2))
+    new_lexicon.write(json.dumps(lexicon))
     new_lexicon.close()
 
     # document indices is written to document index file
