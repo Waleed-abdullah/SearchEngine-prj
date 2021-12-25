@@ -19,7 +19,7 @@ def inverted_index_generator():
     start = datetime.now()
 
     # we find forward barrels present in directory
-    barrels = [forward_barrel for forward_barrel in os.listdir("./") if forward_barrel.startswith('forward_barrel_')]
+    barrels = [forward_barrel for forward_barrel in os.listdir("./forwardBarrels") if forward_barrel.startswith('forward_barrel_')]
     # opening lexicon to update offset values into inverted barrels
     lexicon_file = open("lexicon.txt", "r")
     lexicon = json.load(lexicon_file)
@@ -28,7 +28,7 @@ def inverted_index_generator():
 
     for barrel in barrels:
         # at a time we open one forward barrel
-        forward_file = open('./{}'.format(barrel))
+        forward_file = open('./forwardBarrels/{}'.format(barrel))
         inverted_list = []
         # get the barrel number corresponding to the forward index file because they are not sorted
         if barrel[17].isnumeric() and barrel[16].isnumeric():
@@ -39,8 +39,8 @@ def inverted_index_generator():
             barrel_num = barrel[15]
 
         # if inverted barrel is present we load its content to a list
-        if os.path.isfile("./inverted_barrel_" + barrel_num + ".txt"):
-            with open("./inverted_barrel_" + barrel_num + ".txt", 'r') as inverted_index:
+        if os.path.isfile("./InvertedBarrels/inverted_barrel_" + barrel_num + ".txt"):
+            with open("./InvertedBarrels/inverted_barrel_" + barrel_num + ".txt", 'r') as inverted_index:
                 for line in inverted_index:
                     inverted_list.append(json.loads(line))
 
@@ -50,7 +50,7 @@ def inverted_index_generator():
         forward_file.close()
 
         # re sort the inverted list and write to the inverted barrel
-        inverted_file = open("./inverted_barrel_" + barrel_num + ".txt", 'w')
+        inverted_file = open("./InvertedBarrels/inverted_barrel_" + barrel_num + ".txt", 'w')
         sorted_list = sort(inverted_list)
         for i in range(len(sorted_list)):
             for j in range(len(sorted_list[i])):

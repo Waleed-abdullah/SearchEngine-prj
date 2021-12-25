@@ -42,16 +42,17 @@ def generate_forward_index(path_to_data):
     # create a list of forward barrels and we use 300 barrels
     forward_barrels = []
     for barrelCount in range(1, 301):
-        forward_barrels.append(open('./forward_barrel_{}.txt'.format(barrelCount), 'w'))
+        forward_barrels.append(open('./forwardBarrels/forward_barrel_{}.txt'.format(barrelCount), 'w'))
 
-    for filename in file_names:
+    # for filename in file_names:
+    for i in range(3):
         # created a list of 300 forward dictionaries
         forward_dicts = []
         for barrelCount in range(1, 301):
             forward_dicts.append({})
 
         # open file and load data to be processed
-        file = open("{}/{}".format(path_to_data, filename))
+        file = open("{}/{}".format(path_to_data, file_names[i]))
         loaded_data = json.load(file)
         file.close()
 

@@ -21,7 +21,7 @@ def search_word(word):
         return None
 
     barrel_num = int(word_id[0] / 533) + 1
-    inverted_index = open("./inverted_barrel_" + str(barrel_num) + ".txt", 'r')
+    inverted_index = open("./InvertedBarrels/inverted_barrel_" + str(barrel_num) + ".txt", 'r')
 
     doc_list = []
     result_count = 1
@@ -32,12 +32,13 @@ def search_word(word):
         line = json.loads(inverted_index.readline())
         result_count += 1
 
+    print(len(doc_list))
     print(doc_list)
     inverted_index.close()
     end = datetime.now()
     print("The time of execution to search a word is:", str(end - start))
 
 
-search_word("doctor")
-search_word("kashmiri")
-search_word("explos")
+search_word("protest")
+# search_word("kashmiri")
+# search_word("explos")
