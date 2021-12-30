@@ -5,7 +5,7 @@ from tkinter.font import ITALIC, Font
 
 
 
-def clickSearchButton():
+def clickSearchButton(event):
     searched_text = searchText.get()
     # the text entered in search bar goes to searched_text
 
@@ -67,7 +67,6 @@ def clickInsertDataButton():
     newURL.pack(side = LEFT)
 
     insertURLButton = Button(frame2, text="Add", font=("Helvetica", 10), width=3, command=clickInsertURLButton)
-    #searchButton.bind("<Return>", clickSearchButton)
     insertURLButton.pack(side=RIGHT)
 
     frame2.place(relx=0.5, rely=0.5, anchor=CENTER)
@@ -77,6 +76,8 @@ window = Tk()
 window.title('Search')
 window.configure(background="black")
 window.geometry("1920x1080")
+
+window.bind('<Return>',clickSearchButton)
 
 logo = PhotoImage(file="talash_png_2.png")
 Label(window, image=logo, background="black").place(relx=0.5, rely=0.25, anchor=CENTER)
@@ -88,7 +89,6 @@ searchText = Entry(frame, width = 50, font=("Helvetica", 14), bg="white")
 searchText.pack(side = LEFT)
 
 searchButton = Button(frame, text="Search", font=("Helvetica", 10), width=6, command=clickSearchButton)
-#searchButton.bind("<Return>", clickSearchButton)
 searchButton.pack(side=RIGHT)
 
 frame.place(relx=0.5, rely=0.33, anchor=CENTER)
