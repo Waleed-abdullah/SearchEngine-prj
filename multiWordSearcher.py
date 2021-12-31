@@ -45,9 +45,9 @@ def search_words(wordsList):
                                 prevWordHitList = documents[docID][docIdx]
                                 idxRange = min(len(prevWordHitList), len(contentHitList))
                                 for locationIdx in range(2, idxRange):
-                                    proximity = abs(documents[docID][docIdx][locationIdx] - contentHitList[locationIdx])
+                                    proximity = abs(prevWordHitList[locationIdx] - contentHitList[locationIdx])
                                     if proximity <= 1:
-                                        documents[docID][0] += 15
+                                        documents[docID][0] += 10
                                     elif proximity <= 10:
                                         documents[docID][0] += 8
                                     elif proximity <= 100:
