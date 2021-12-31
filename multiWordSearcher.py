@@ -41,17 +41,21 @@ def search_words(wordsList):
                 # calculate proximity and add weight
                     if contentHits > 0:
                         if documents[docID][1] is not None:
-                            proximity = abs(documents[docID][1][2] - contentHitList[2])
-                            if proximity <= 1:
-                                documents[docID][0] += 10
-                            elif proximity <= 10:
-                                documents[docID][0] += 8
-                            elif proximity <= 100:
-                                documents[docID][0] += 4
-                            else:
-                                documents[docID][0] += 2
-                        #add the hitlist of the current word for next words proximity calculation
-                        documents[docID][1] = contentHitList
+                            for docIdx in range(1, len(documents[docID])): # calculate proximity of each occurance
+                                prevWordHitList = documents[docID][docIdx]
+                                idxRange = min(len(prevWordHitList), len(contentHitList))
+                                for locationIdx in range(2, idxRange):
+                                    proximity = abs(documents[docID][docIdx][locationIdx] - contentHitList[locationIdx])
+                                    if proximity <= 1:
+                                        documents[docID][0] += 15
+                                    elif proximity <= 10:
+                                        documents[docID][0] += 8
+                                    elif proximity <= 100:
+                                        documents[docID][0] += 4
+                                    else:
+                                        documents[docID][0] += 2
+                        # add the hitlist of the current word for next words proximity calculation
+                        documents[docID].append(contentHitList) 
             else:                       
                     if contentHits > 0:
                         documents[docID] = [titleHits + contentHits, contentHitList]  # add hits in both title and content and store the hit list for proximity check
