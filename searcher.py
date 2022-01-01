@@ -1,7 +1,7 @@
 import json, os
 from datetime import datetime
 
-
+# searches the word in the lexicon and returns its offset
 def search_lexicon(word):
     file = open('lexicon.txt', "r")
     lexicon = json.load(file)

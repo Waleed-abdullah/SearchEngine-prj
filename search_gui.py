@@ -22,24 +22,27 @@ def clickSearchButton(event):
     start = datetime.now()
     
     search_text = searchText.get()
+
     search_words = (re.sub('[^a-zA-Z]', ' ', search_text)).lower().split()
     # if the user didnt enter anything then return
     if len(search_text) == 0:
         result.delete(0.0, END)
         result.insert(END, "You didnt enter anything")
         return 
-
+    # stem the input words
     stemmed_words = [snow_stemmer.stem(word) for word in search_words if not word in stop_words]
 
+    # the file containing the URLs of each indexed document
     UrlFile = open('document_index.txt', 'r')
     docIndex = json.load(UrlFile)
 
+    # the result of the search
     rankedDocuments = searchWords(stemmed_words) 
     
     
     end = datetime.now()
-    time_taken = str(end - start)
-    #time_taken = str(end - start)
+    timeTaken = str(end - start)
+    
 
     # Convert to hyperLinks
     hyperLink = HyperlinkManager(result)
@@ -51,14 +54,14 @@ def clickSearchButton(event):
     timeTaken_msg = Label(frame3, text="Time taken for search in seconds = ", font=("Helvetica", 12, ITALIC), background="black", foreground="#00FFC0")
     timeTaken_msg.pack(side=LEFT)
 
-    timeTaken_secs = Label(frame3, text = time_taken, font=("Helvetica", 12, ITALIC), foreground="white", background="black")
+    timeTaken_secs = Label(frame3, text = timeTaken, font=("Helvetica", 12, ITALIC), foreground="white", background="black")
     timeTaken_secs.pack(side=RIGHT)
 
     frame3.place(relx=0.5, rely=0.7, anchor=CENTER)
 
     result.delete(0.0, END)
 
-    ############### this displays the result #######################
+    # this displays the result 
     if len(rankedDocuments):
         for document in rankedDocuments:
             url = docIndex[document[0]]

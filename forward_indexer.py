@@ -14,7 +14,7 @@ def generate_forward_index(path_to_data):
     stop_words = set(stopwords.words('english'))
     snow_stemmer = SnowballStemmer(language='english')
 
-    # check the directory for file of json format
+    # check the directory for files of json format
     file_names = [posJson for posJson in os.listdir(path_to_data) if posJson.endswith('.json')]
 
 
@@ -140,7 +140,7 @@ def generate_forward_index(path_to_data):
 
     end = datetime.now()
     timeTaken = str(end - start)
-    print("The time of execution of to create forward index and lexicon is:", timeTaken)
+    print("The time of execution to create forward index and lexicon is:", timeTaken)
     print('doc_count = ', doc_count)
     print('word_count = ', word_count)
     

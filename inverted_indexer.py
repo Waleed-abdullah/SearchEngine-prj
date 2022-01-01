@@ -4,10 +4,10 @@ from datetime import datetime
 
 # performs sorting on forward barrel content
 def sort(input_list):
-    # creates a list of 533 list as each barrels contain hits of 533 words
+    # creates a list of 533 lists corresponding to the number of words in one fwd index file
     sorted_list = [[] for i in range(533)]
 
-    # we sort it using counting sort
+    # Uses counting sort to sort in O(n) time
     for value in input_list:
         sorted_list[value[0][1] % 533].append(value)
 
@@ -20,7 +20,7 @@ def inverted_index_generator():
 
     # we find forward barrels present in directory
     barrels = [forward_barrel for forward_barrel in os.listdir("./forwardBarrels") if forward_barrel.startswith('forward_barrel_')]
-    # opening lexicon to update offset values into inverted barrels
+    # opening lexicon to update the offset values into inverted barrels
     lexicon_file = open("lexicon.txt", "r")
     lexicon = json.load(lexicon_file)
     lexicon_keys = list(lexicon.keys())
