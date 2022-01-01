@@ -1,5 +1,4 @@
 import json, os
-from datetime import datetime
 
 # searches the word in the lexicon and returns its offset
 def search_lexicon(word):
@@ -13,8 +12,6 @@ def search_lexicon(word):
 
 # receives a list of words to search
 def searchWords(wordsList):
-    start = datetime.now()
-
     # get the wordIDs
     word_ids = []
     for word in wordsList:
@@ -34,11 +31,11 @@ def searchWords(wordsList):
         inverted_index.seek(word_id[1])
         line = json.loads(inverted_index.readline())
         # load the results of the corresponding word
-        while line[0][1] == word_id[0] and result_count < 31:
+        while line[0][1] == word_id[0]: # and result_count < 31:
             # destructuring the data
             docID = str(line[0][0])
             titleHitList = line[1][0]
-            titleHits = titleHitList[1]
+            titleHits = titleHitList[1] * 5 # title hits are scaled by 5 to increase relevance
             contentHitList = line[1][1]
             contentHits = contentHitList[1]
             # if the document has already been added before then calculate the proximity between the words
