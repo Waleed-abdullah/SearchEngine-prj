@@ -139,12 +139,13 @@ def generate_forward_index(path_to_data):
     document_index.close()
 
     end = datetime.now()
-    print("The time of execution of to create forward index and lexicon is:", str(end - start))
+    timeTaken = str(end - start)
+    print("The time of execution of to create forward index and lexicon is:", timeTaken)
     print('doc_count = ', doc_count)
     print('word_count = ', word_count)
     
     if doc_count: # if it is more than 0
-        return [1, doc_count, str(end - start)]
+        return [1, doc_count, timeTaken]
     else:
-        return [0, doc_count, str(end - start)]
+        return [0, doc_count, timeTaken]
 

@@ -64,6 +64,7 @@ def inverted_index_generator():
     lexicon_file.close()
 
     end = datetime.now()
-    print("The time of execution of to create inverted index is:", str(end - start))
-    return str(end - start)
+    timeTaken = str(end - start)
+    print("The time of execution to create inverted index is:", timeTaken)
+    return timeTaken
 
