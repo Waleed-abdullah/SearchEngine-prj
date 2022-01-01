@@ -1,18 +1,43 @@
-
-from datetime import time
+from datetime import datetime
+import re, json
 from tkinter import *
 from tkinter.font import ITALIC, Font
+from nltk import stem
+from searcher import searchWords
+from nltk.corpus import stopwords
+from nltk.stem.snowball import SnowballStemmer
+from tkHyperLinkManager import HyperlinkManager
+import webbrowser
+from functools import partial
 
-
+stop_words = set(stopwords.words('english'))
+snow_stemmer = SnowballStemmer(language='english')
 
 def clickSearchButton(event):
-    searched_text = searchText.get()
-    # the text entered in search bar goes to searched_text
+    start = datetime.now()
+    
+    search_text = searchText.get()
+    search_words = (re.sub('[^a-zA-Z]', ' ', search_text)).lower().split()
+    # if the user didnt enter anything then return
+    if len(search_text) == 0:
+        result.delete(0.0, END)
+        result.insert(END, "You didnt enter anything")
+        return 
 
-    ################## where time_taken = str(end-start) #############
-    time_taken = float
-    time_taken = 5.24
+    stemmed_words = [snow_stemmer.stem(word) for word in search_words if not word in stop_words]
+
+    UrlFile = open('document_index.txt', 'r')
+    docIndex = json.load(UrlFile)
+
+    rankedDocuments = searchWords(stemmed_words) 
+    
+    
+    end = datetime.now()
+    time_taken = str(end - start)
     #time_taken = str(end - start)
+
+    # Convert to hyperLinks
+    hyperLink = HyperlinkManager(result)
 
     frame3 = Frame(window, background="black") 
     
@@ -26,17 +51,15 @@ def clickSearchButton(event):
 
     frame3.place(relx=0.5, rely=0.7, anchor=CENTER)
 
-    string_list= ["a bit more", "hullo", "just", "do", "it", "Hello", "this is a link", "hullo shishter","CHECK","SCROLL","Also very", "nice weather", "out here", "very cold"]
-
     result.delete(0.0, END)
 
     ############### this displays the result #######################
-    try:
-        for x in range(len(docIDs[rankedDocs])):
-            result.insert(END, docIDs[rankedDoc[i][0]])
+    if len(rankedDocuments):
+        for document in rankedDocuments:
+            url = docIndex[document[0]]
+            result.insert(END, url, hyperLink.add(partial(webbrowser.open, url)))
             result.insert(END, "\n")
-
-    except:
+    else:
         result.insert(END, "Sorry, no result found")
 
 
@@ -88,8 +111,9 @@ frame.pack()
 searchText = Entry(frame, width = 50, font=("Helvetica", 14), bg="white")
 searchText.pack(side = LEFT)
 
-searchButton = Button(frame, text="Search", font=("Helvetica", 10), width=6, command=clickSearchButton)
+searchButton = Button(frame, text="Search", font=("Helvetica", 10), width=6)
 searchButton.pack(side=RIGHT)
+searchButton.bind("<Button-1>", lambda event:clickSearchButton(event))
 
 frame.place(relx=0.5, rely=0.33, anchor=CENTER)
 
@@ -99,7 +123,7 @@ scroll.pack(side=RIGHT, fill=Y)
 result = Text(window, width=100, height=10, foreground="black", background="#00FFC0", font=("Helvetica", 14), yscrollcommand=scroll.set)
 result.place(relx=0.5, rely=0.52, anchor=CENTER)
 
-scroll.config(command=result.yview)
+scroll.config(command=result.yview) 
 
 addButton = Button(window, text="Insert Data", font=("Helvetica", 10), width=11, command=clickInsertDataButton )
 addButton.place(relx=0.5, rely=0.77, anchor=CENTER)
