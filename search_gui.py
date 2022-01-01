@@ -1,14 +1,19 @@
-from datetime import datetime
 import re, json
+import webbrowser
+from datetime import datetime
 from tkinter import *
 from tkinter.font import ITALIC, Font
 from nltk import stem
 from searcher import searchWords
+from tkinter import filedialog
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from tkHyperLinkManager import HyperlinkManager
-import webbrowser
 from functools import partial
+from forward_indexer import generate_forward_index
+from inverted_indexer import inverted_index_generator
+
+
 
 stop_words = set(stopwords.words('english'))
 snow_stemmer = SnowballStemmer(language='english')
@@ -65,34 +70,31 @@ def clickSearchButton(event):
 
 
 def clickInsertDataButton():
+    # gets the path of the folder containing the data
+    folderSelected = filedialog.askdirectory()
+    try:
+        # if the IndexInfo[0] contains a flag if it is 1 that means more documents were added to the forward index else they werent
+        indexInfo = generate_forward_index(folderSelected)
+        if indexInfo[0]:
+           indexInfo.append(inverted_index_generator())
+    except:
+        result.delete(0.0, END)
+        result.insert(END, "There was an error in generating the forward and inverted indices")
+        return
+    
+        result.delete(0.0, END)
+    if indexInfo[0]:
+        result.insert(END, "Forward and inverted index generation successful for json files in " + folderSelected)
+        result.insert(END, "\n")
+        result.insert(END, "The number of docs scanned were: " + str(indexInfo[1]))
+        result.insert(END, "\n")
+        result.insert(END, "Time it took for forward index generation is: " + indexInfo[2])
+        result.insert(END, "\n")
+        result.insert(END, "Time it took for inverted index generation is: " +  indexInfo[3])
+    else:
+        result.insert(END, "There were either no Json files in the input directory or those Json files have already been indexed")
 
-    def clickInsertURLButton():
-        new_url = newURL.get()
-
-        ############################################################
-        # code to add "new_url" to the existing database goes here # 
-
-        # this will close the temporary window after we have added the new url
-        window2.destroy()
-
-    window2 = Tk()
-    window2.title('Insert Data')
-    window2.configure(background="white")
-    window2.geometry("600x100")
-
-    frame2 = Frame(window2, background="white")
-    frame2.pack()
-
-    enterData = Label(frame2, font=("Helvetica", 14), foreground="black",background="white", text="Enter new data [URL] : ")
-    enterData.pack()
-
-    newURL = Entry(frame2, width = 50, font=("Helvetica", 14), bg="white")
-    newURL.pack(side = LEFT)
-
-    insertURLButton = Button(frame2, text="Add", font=("Helvetica", 10), width=3, command=clickInsertURLButton)
-    insertURLButton.pack(side=RIGHT)
-
-    frame2.place(relx=0.5, rely=0.5, anchor=CENTER)
+    
 
 
 window = Tk()
