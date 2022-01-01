@@ -1,5 +1,4 @@
 import json, re, os
-
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
@@ -11,13 +10,13 @@ import zlib
 # This parses json files and creates lexicon and forward index
 def generate_forward_index(path_to_data):
     start = datetime.now()
-
     # we create a set of stop words
     stop_words = set(stopwords.words('english'))
     snow_stemmer = SnowballStemmer(language='english')
 
-    # check the directory for file of json format
+    # check the directory for files of json format
     file_names = [posJson for posJson in os.listdir(path_to_data) if posJson.endswith('.json')]
+
 
     # if lexicon file is present we load it to memory
     if os.path.isfile('lexicon.txt'):
@@ -44,15 +43,14 @@ def generate_forward_index(path_to_data):
     for barrelCount in range(1, 301):
         forward_barrels.append(open('./forwardBarrels/forward_barrel_{}.txt'.format(barrelCount), 'w'))
 
-    # for filename in file_names:
-    for i in range(3):
+    for fileName in file_names:
         # created a list of 300 forward dictionaries
         forward_dicts = []
         for barrelCount in range(1, 301):
             forward_dicts.append({})
 
         # open file and load data to be processed
-        file = open("{}/{}".format(path_to_data, file_names[i]))
+        file = open("{}/{}".format(path_to_data, fileName))
         loaded_data = json.load(file)
         file.close()
 
@@ -64,7 +62,7 @@ def generate_forward_index(path_to_data):
             hashedID = zlib.crc32(doc_id)
 
             # If the article is already indexed then continue else add doc id to document index
-            if hashedID in document_indices:
+            if str(hashedID) in document_indices:
                 continue
             else:
                 document_indices[str(hashedID)] = article['url']
@@ -140,6 +138,13 @@ def generate_forward_index(path_to_data):
     document_index.close()
 
     end = datetime.now()
-    print("The time of execution of to create forward index and lexicon is:", str(end - start))
+    timeTaken = str(end - start)
+    print("The time of execution to create forward index and lexicon is:", timeTaken)
     print('doc_count = ', doc_count)
     print('word_count = ', word_count)
+    
+    if doc_count: # if it is more than 0
+        return [1, doc_count, timeTaken]
+    else:
+        return [0, doc_count, timeTaken]
+
