@@ -10,8 +10,8 @@ from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from tkHyperLinkManager import HyperlinkManager
 from functools import partial
-from forward_indexer import generate_forward_index
-from inverted_indexer import inverted_index_generator
+from indexer import generate_forward_index
+from sorter import inverted_index_generator
 
 
 

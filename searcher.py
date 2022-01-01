@@ -15,26 +15,33 @@ def search_lexicon(word):
 def searchWords(wordsList):
     start = datetime.now()
 
+    # get the wordIDs
     word_ids = []
     for word in wordsList:
         word_id = search_lexicon(word)
         if word_id is not None:
             word_ids.append(word_id)
    
+    # a dictionary containing information about the documents, is used to calculate the Rank of the documents
     documents = {} 
+    
     for word_id in word_ids:
         barrel_num = int(word_id[0] / 533) + 1
         inverted_index = open("./InvertedBarrels/inverted_barrel_" + str(barrel_num) + ".txt", 'r')
 
         result_count = 1
+        # jump to the location of the corresponding word
         inverted_index.seek(word_id[1])
         line = json.loads(inverted_index.readline())
+        # load the results of the corresponding word
         while line[0][1] == word_id[0] and result_count < 31:
+            # destructuring the data
             docID = str(line[0][0])
             titleHitList = line[1][0]
             titleHits = titleHitList[1]
             contentHitList = line[1][1]
             contentHits = contentHitList[1]
+            # if the document has already been added before then calculate the proximity between the words
             if docID in documents:
                 # add the new hits to the score
                     documents[docID][0] = documents[docID][0] + titleHits +  contentHits
@@ -54,9 +61,11 @@ def searchWords(wordsList):
                                         documents[docID][0] += 4
                                     else:
                                         documents[docID][0] += 2
-                        # add the hitlist of the current word for next words proximity calculation
+                        # add the hitlist of the current word for next word's proximity calculation
                         documents[docID].append(contentHitList) 
-            else:                       
+            # if it hasnt been added then add the data
+            else:    
+                # if there are no content hits (means the word only occured in the title) then just add None                   
                     if contentHits > 0:
                         documents[docID] = [titleHits + contentHits, contentHitList]  # add hits in both title and content and store the hit list for proximity check
                     else:
@@ -70,14 +79,6 @@ def searchWords(wordsList):
 
     rankedDocuments = sorted(list(documents.items()), key = lambda x: x[1][0], reverse = True)
 
-
     return rankedDocuments
-    # print(len(rankedDocuments))
-    # print(rankedDocuments)
-    end = datetime.now()
-    print("The time of execution to search a word is:", str(end - start))
 
 
-# searchWords(["lockdown", "protest", "retire", "civil", "signal", "quran", "opposit", "hog"])
-# search_word("kashmiri")
-# search_word("explos")
