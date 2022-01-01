@@ -82,7 +82,7 @@ def clickInsertDataButton():
         result.insert(END, "There was an error in generating the forward and inverted indices")
         return
     
-        result.delete(0.0, END)
+    result.delete(0.0, END)
     if indexInfo[0]:
         result.insert(END, "Forward and inverted index generation successful for json files in " + folderSelected)
         result.insert(END, "\n")

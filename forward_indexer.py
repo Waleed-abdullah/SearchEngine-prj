@@ -10,7 +10,6 @@ import zlib
 # This parses json files and creates lexicon and forward index
 def generate_forward_index(path_to_data):
     start = datetime.now()
-    print(path_to_data)
     # we create a set of stop words
     stop_words = set(stopwords.words('english'))
     snow_stemmer = SnowballStemmer(language='english')
@@ -37,7 +36,6 @@ def generate_forward_index(path_to_data):
         with open('./document_index.txt') as doc_idx:
             document_indices = json.load(doc_idx)
 
-    print(document_indices)
     document_index = open('./document_index.txt', 'w')
 
     # create a list of forward barrels and we use 300 barrels
@@ -150,5 +148,3 @@ def generate_forward_index(path_to_data):
     else:
         return [0, doc_count, str(end - start)]
 
-
-generate_forward_index('./Dataset/nela-gt-2020/newsdata')
