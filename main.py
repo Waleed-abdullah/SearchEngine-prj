@@ -14,7 +14,6 @@ from indexer import generate_forward_index
 from sorter import inverted_index_generator
 
 
-
 stop_words = set(stopwords.words('english'))
 snow_stemmer = SnowballStemmer(language='english')
 
@@ -35,18 +34,31 @@ def clickSearchButton(event):
     # the file containing the URLs of each indexed document
     UrlFile = open('document_index.txt', 'r')
     docIndex = json.load(UrlFile)
+    UrlFile.close()
 
     # the result of the search
     rankedDocuments = searchWords(stemmed_words) 
-    
-    
-    end = datetime.now()
-    timeTaken = str(end - start)
     
 
     # Convert to hyperLinks
     hyperLink = HyperlinkManager(result)
 
+    # this displays the result 
+    result.delete(0.0, END)
+
+    if len(rankedDocuments):
+        for document in rankedDocuments:
+            url = docIndex[document[0]]
+            result.insert(END, url, hyperLink.add(partial(webbrowser.open, url)))
+            result.insert(END, "\n")
+    else:
+        result.insert(END, "Sorry, no result found")
+
+
+    end = datetime.now()
+    timeTaken = str(end - start)
+    
+    # print time taken
     frame3 = Frame(window, background="black") 
     
     frame3.pack()
@@ -59,17 +71,8 @@ def clickSearchButton(event):
 
     frame3.place(relx=0.5, rely=0.7, anchor=CENTER)
 
-    result.delete(0.0, END)
-
-    # this displays the result 
-    if len(rankedDocuments):
-        for document in rankedDocuments:
-            url = docIndex[document[0]]
-            result.insert(END, url, hyperLink.add(partial(webbrowser.open, url)))
-            result.insert(END, "\n")
-    else:
-        result.insert(END, "Sorry, no result found")
-
+    
+    
 
 
 def clickInsertDataButton():

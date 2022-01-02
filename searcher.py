@@ -1,24 +1,21 @@
 import json, os
 
 # searches the word in the lexicon and returns its offset
-def search_lexicon(word):
+def search_lexicon(wordList):
     file = open('lexicon.txt', "r")
     lexicon = json.load(file)
-    if word not in lexicon:
-        print("Word not found in lexicon\n")
-        return None
-    else:
-        return lexicon[word]
+    wordIds = []
+    for word in wordList:
+        if word in lexicon:
+            wordIds.append(lexicon[word])
+    return wordIds    
+    
 
 # receives a list of words to search
 def searchWords(wordsList):
     # get the wordIDs
-    word_ids = []
-    for word in wordsList:
-        word_id = search_lexicon(word)
-        if word_id is not None:
-            word_ids.append(word_id)
-   
+    word_ids = search_lexicon(wordsList)
+    
     # a dictionary containing information about the documents, is used to calculate the Rank of the documents
     documents = {} 
     
@@ -26,12 +23,12 @@ def searchWords(wordsList):
         barrel_num = int(word_id[0] / 533) + 1
         inverted_index = open("./InvertedBarrels/inverted_barrel_" + str(barrel_num) + ".txt", 'r')
 
-        result_count = 1
         # jump to the location of the corresponding word
         inverted_index.seek(word_id[1])
         line = json.loads(inverted_index.readline())
         # load the results of the corresponding word
-        while line[0][1] == word_id[0]: # and result_count < 31:
+        result_count = 1
+        while line[0][1] == word_id[0]: # and result_count <= 200: 
             # destructuring the data
             docID = str(line[0][0])
             titleHitList = line[1][0]
