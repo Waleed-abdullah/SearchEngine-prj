@@ -14,7 +14,6 @@ from indexer import generate_forward_index
 from sorter import inverted_index_generator
 
 
-
 stop_words = set(stopwords.words('english'))
 snow_stemmer = SnowballStemmer(language='english')
 
@@ -74,8 +73,6 @@ def clickSearchButton(event):
 
     
     
-    
-
 
 
 def clickInsertDataButton():
