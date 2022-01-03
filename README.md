@@ -1,6 +1,8 @@
 # Search Engine
 
 We have also included the documentation as a pdf if you want to understand how our project works
+We implemented the project similar to how google implemented it, we learned that by reading and understanding this research paper:
+[Google Research Paper](http://infolab.stanford.edu/~backrub/google.html)
 
 ## Tools used
 
