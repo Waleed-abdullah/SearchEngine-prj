@@ -27,8 +27,7 @@ def searchWords(wordsList):
         inverted_index.seek(word_id[1])
         line = json.loads(inverted_index.readline())
         # load the results of the corresponding word
-        result_count = 1
-        while line[0][1] == word_id[0]: # and result_count <= 200: 
+        while line[0][1] == word_id[0]:
             # destructuring the data
             docID = str(line[0][0])
             titleHitList = line[1][0]
@@ -65,7 +64,7 @@ def searchWords(wordsList):
                     else:
                         documents[docID] = [titleHits + contentHits, None] 
             line = json.loads(inverted_index.readline())
-            result_count += 1
+        
 
         inverted_index.close()
 
