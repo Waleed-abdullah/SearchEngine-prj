@@ -67,7 +67,7 @@ def clickSearchButton(event):
     
     frame3.pack()
 
-    timeTaken_msg = Label(frame3, text="Time taken for search in seconds = ", font=("Helvetica", 12, ITALIC), background="black", foreground="#00FFC0")
+    timeTaken_msg = Label(frame3, text="Time taken for search = ", font=("Helvetica", 12, ITALIC), background="black", foreground="#00FFC0")
     timeTaken_msg.pack(side=LEFT)
 
     timeTaken_secs = Label(frame3, text = timeTaken, font=("Helvetica", 12, ITALIC), foreground="white", background="black")
@@ -132,7 +132,7 @@ frame.place(relx=0.5, rely=0.33, anchor=CENTER)
 scroll = Scrollbar(window)
 scroll.pack(side=RIGHT, fill=Y)
 
-result = Text(window, width=100, height=10, foreground="black", background="#00FFC0", font=("Helvetica", 14), yscrollcommand=scroll.set)
+result = Text(window, width=100, height=10, foreground="black", background="white", font=("Helvetica", 14), yscrollcommand=scroll.set)
 result.place(relx=0.5, rely=0.52, anchor=CENTER)
 
 scroll.config(command=result.yview) 
