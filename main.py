@@ -38,6 +38,8 @@ def clickSearchButton(event):
 
     # the result of the search
     rankedDocuments = searchWords(stemmed_words) 
+    end = datetime.now()
+    timeTaken = str(end - start)
     
 
     # Convert to hyperLinks
@@ -47,16 +49,18 @@ def clickSearchButton(event):
     result.delete(0.0, END)
 
     if len(rankedDocuments):
-        for document in rankedDocuments:
+        i = 0
+        while i < 300 and i < len(rankedDocuments):
+        # for document in rankedDocuments:
+            document = rankedDocuments[i]
             url = docIndex[document[0]]
             result.insert(END, url, hyperLink.add(partial(webbrowser.open, url)))
             result.insert(END, "\n")
+            i += 1
     else:
         result.insert(END, "Sorry, no result found")
 
 
-    end = datetime.now()
-    timeTaken = str(end - start)
     
     # print time taken
     frame3 = Frame(window, background="black") 
